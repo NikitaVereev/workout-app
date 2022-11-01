@@ -20,9 +20,9 @@ const Header = () => {
 					setOpen(!open)
 				}}
 			>
-				{open ? <img src={menuImage} /> : <img src={menuCloseImage} />}
+				{!open ? <img src={menuImage} /> : <img src={menuCloseImage} />}
 			</button>
-			{!open && (
+			{open && (
 				<ul className={styles.popup}>
 					{hamburgerArr.map((e, index) => (
 						<li
