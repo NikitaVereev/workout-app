@@ -20,7 +20,7 @@ const Header = () => {
 					setOpen(!open)
 				}}
 			>
-				{!open ? <img src={menuImage} /> : <img src={menuCloseImage} />}
+				<img src={!open ? menuImage : menuCloseImage} />
 			</button>
 			{open && (
 				<ul className={styles.popup}>
@@ -35,7 +35,6 @@ const Header = () => {
 					))}
 				</ul>
 			)}
-			{console.log(hamburger)}
 		</header>
 	)
 }
