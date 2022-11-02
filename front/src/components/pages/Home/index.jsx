@@ -7,9 +7,9 @@ import bgImage from '../../images/bg1.jpg'
 
 const Home = () => {
 	return (
-		<Layout height='100%' bgImage={bgImage}>
+		<Layout className={styles.container} height='100%' bgImage={bgImage}>
 			<Button style='main' text={'New'} callback={() => {}} />
-			<h1>EXERCISES FOR THE SHOULDERS</h1>
+			<h1 className={styles.title}>EXERCISES FOR THE SHOULDERS</h1>
 			<Counters />
 		</Layout>
 	)

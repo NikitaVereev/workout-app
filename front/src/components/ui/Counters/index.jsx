@@ -9,10 +9,10 @@ const Counters = () => {
 	}
 
 	return (
-		<div>
+		<div className={styles.wrapper}>
 			{Object.entries(counters).map(item => (
 				<div key={'_key' + item[0]} className={styles.count}>
-					<div className='heading'>{item[0]}</div>
+					<div className={styles.heading}>{item[0]}</div>
 					<div className='number'>{item[1]}</div>
 				</div>
 			))}

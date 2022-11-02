@@ -9,8 +9,7 @@ const Layout = ({ children, bgImage }) => {
 			style={{ backgroundImage: `url(${bgImage})` }}
 		>
 			<Header />
-			<div></div>
-			{children}
+			<div className={styles.contetn}>{children}</div>
 		</div>
 	)
 }
