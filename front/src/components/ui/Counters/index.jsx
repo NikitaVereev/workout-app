@@ -13,7 +13,7 @@ const Counters = () => {
 			{Object.entries(counters).map(item => (
 				<div key={'_key' + item[0]} className={styles.count}>
 					<div className={styles.heading}>{item[0]}</div>
-					<div className='number'>{item[1]}</div>
+					<div className={styles.number}>{item[1]}</div>
 				</div>
 			))}
 		</div>
