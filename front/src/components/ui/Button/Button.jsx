@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Button.module.sass'
 
-const Button = ({ callback, text, style = 'purple' }) => {
+const Button = ({ callback, text, style }) => {
 	return (
 		<button onClick={callback} className={`${styles.button} ${styles[style]}`}>
 			{text}

@@ -1,3 +1,4 @@
+@import '../../../sass/_variables'
 .container
     padding: 30px
     display: flex
@@ -6,6 +7,11 @@
     background-size: cover
     background-position: center
     background-repeat: no-repeat
+    height: calc( 100vh - 60px )
+    &.otherPage
+        border-radius: 0 0 20px 20px
+        box-shadow: $bx-accent
+        height: calc( 350px - 60px )
     
 .content
     display: flex

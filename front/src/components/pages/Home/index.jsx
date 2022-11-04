@@ -9,11 +9,7 @@ import { useNavigate } from 'react-router-dom'
 const Home = () => {
 	const history = useNavigate()
 	return (
-		<Layout
-			className={styles.container}
-			bgImage={bgImage}
-			height='calc(100vh - 60px)'
-		>
+		<Layout className={styles.container} bgImage={bgImage}>
 			<Button
 				style='main'
 				text={'New'}
