@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Search.module.sass'
 
-const Search = ({ value, placeholder, type = 'text', onChange }) => {
+const Search = ({ value, placeholder, type = 'text', onChange, required }) => {
 	return (
 		<input
 			value={value}
@@ -9,6 +9,7 @@ const Search = ({ value, placeholder, type = 'text', onChange }) => {
 			onChange={onChange}
 			type={type}
 			className={styles.input}
+			required={required}
 		/>
 	)
 }

@@ -12,7 +12,6 @@ export const authUser = asyncHandler(async (req, res) => {
 
 	if (user && (await user.matchPassword(password))) {
 		const token = generateToken(user._id)
-
 		res.json({ user, token })
 	} else {
 		res.status(401)

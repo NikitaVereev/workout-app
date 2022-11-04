@@ -1,0 +1,21 @@
+@import '../../../sass/_variables'
+@import '../../../sass/_animation'
+.alert
+    width: 319px
+    margin: 0 auto 1rem
+    background: lighten($purple, 60%)
+    padding: 10px 0
+    text-align: center
+    border-radius: 10px
+
+    color: #252a34
+    animation: opacity .4s
+    &.error
+        background: #ff2e63
+    &.info
+        background: #50c1e9
+    &.warning
+        background: #f75940
+
+
+        

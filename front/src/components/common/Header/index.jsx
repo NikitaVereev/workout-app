@@ -1,13 +1,16 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './Header.module.sass'
 import userImage from '../../images/user.svg'
 import userBack from '../../images/arrow.svg'
 import menuImage from '../../images/menu.svg'
 import menuCloseImage from '../../images/hamburger-close.svg'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../../hooks/useAuth'
 
 const Header = ({ backCallback }) => {
+	const { isAuth } = useAuth()
+
 	const hamburgerArr = [
 		{ name: 'Workouts', link: 'workout' },
 		{ name: 'Create new', link: 'newpage' },
@@ -19,6 +22,7 @@ const Header = ({ backCallback }) => {
 	const [open, setOpen] = React.useState(false)
 
 	const location = useLocation()
+	const authPage = useNavigate()
 
 	return (
 		<header className={styles.header}>
@@ -27,9 +31,14 @@ const Header = ({ backCallback }) => {
 					<img src={userBack} />
 				</button>
 			) : (
-				<button onClick={backCallback}>
-					<img src={userImage} />
-				</button>
+				<Link to={'/auth'}>
+					<button
+						type='button'
+						onClick={() => location.push(isAuth ? '/profile' : '/auth')}
+					>
+						<img src={userImage} />
+					</button>
+				</Link>
 			)}
 			<button
 				onClick={() => {

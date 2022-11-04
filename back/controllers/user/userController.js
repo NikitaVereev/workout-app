@@ -10,8 +10,6 @@ import WorkoutLog from '../../models/workuotLogModel.js'
 export const getUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id).select('-password').lean()
 
-	/* minutes, workouts, kg */
-
 	const exerciseLogByUser = await ExerciseLog.find({
 		user: user._id,
 		completed: true,

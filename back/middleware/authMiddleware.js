@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import asyncHandler from 'express-async-handler'
+
 import User from '../models/userModel.js'
 
 export const protect = asyncHandler(async (req, res, next) => {
@@ -9,6 +10,7 @@ export const protect = asyncHandler(async (req, res, next) => {
 		token = req.headers.authorization.split(' ')[1]
 
 		const decoded = jwt.verify(token, process.env.ACCESS_TOKEN)
+
 		const userFound = await User.findById(decoded.userId).select('-password')
 
 		if (userFound) {
@@ -19,6 +21,7 @@ export const protect = asyncHandler(async (req, res, next) => {
 			throw new Error('Не авторизован, токен не работает')
 		}
 	}
+
 	if (!token) {
 		res.status(401)
 		throw new Error('Не авторизован, без токена')
