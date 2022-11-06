@@ -7,15 +7,25 @@ import menuImage from '../../images/menu.svg'
 import menuCloseImage from '../../images/hamburger-close.svg'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../../hooks/useAuth'
+import { useOutsideAlerter } from '../../../hooks/useOutsideAlerter'
+import authImage from '../../images/dumbbell.svg'
 
 const Header = ({ backCallback }) => {
+	const { ref, isComponentVisible, setIsComponentVisible } =
+		useOutsideAlerter(false)
 	const { isAuth } = useAuth()
+	const { setIsAuth } = useAuth()
+
+	const handleLogout = () => {
+		localStorage.removeItem('token')
+		setIsAuth(false)
+		setIsComponentVisible(false)
+	}
 
 	const hamburgerArr = [
 		{ name: 'Workouts', link: 'workout' },
 		{ name: 'Create new', link: 'newpage' },
 		{ name: 'Profile', link: 'profile' },
-		{ name: 'Logout', link: 'logout' },
 	]
 	const [hamburger, setHamburger] = React.useState(0)
 
@@ -31,37 +41,40 @@ const Header = ({ backCallback }) => {
 					<img src={userBack} />
 				</button>
 			) : (
-				<Link to={'/auth'}>
-					<button
-						type='button'
-						onClick={() => location.push(isAuth ? '/profile' : '/auth')}
-					>
-						<img src={userImage} />
-					</button>
-				</Link>
+				<button
+					type='button'
+					onClick={() => authPage(isAuth ? '/profile' : '/auth')}
+				>
+					<img src={isAuth ? authImage : userImage} height='24' />
+				</button>
 			)}
-			<button
-				onClick={() => {
-					setOpen(!open)
-				}}
-			>
-				<img src={!open ? menuImage : menuCloseImage} />
-			</button>
-			{open && (
-				<ul className={styles.popup}>
-					{hamburgerArr.map((obj, index) => (
-						<li key={index}>
-							<Link
-								onClick={() => setHamburger(index)}
-								className={hamburger === index ? 'active' : ''}
-								to={obj.link}
-							>
-								{obj.name}
-							</Link>
+			<div ref={ref}>
+				<button
+					onClick={() => {
+						setOpen(() => setIsComponentVisible(!isComponentVisible))
+					}}
+				>
+					<img src={!isComponentVisible ? menuImage : menuCloseImage} />
+				</button>
+				{isComponentVisible && (
+					<ul className={styles.popup}>
+						{hamburgerArr.map((obj, index) => (
+							<li key={index}>
+								<Link
+									onClick={() => setHamburger(index)}
+									className={hamburger === index ? 'active' : ''}
+									to={obj.link}
+								>
+									{obj.name}
+								</Link>
+							</li>
+						))}
+						<li>
+							<button onClick={handleLogout}>Logout</button>
 						</li>
-					))}
-				</ul>
-			)}
+					</ul>
+				)}
+			</div>
 		</header>
 	)
 }

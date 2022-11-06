@@ -1,0 +1,45 @@
+@import '../../../sass/_variables'
+
+.wrapper
+    margin-top: 50px
+    height: 100%
+    width: 100%
+    display: flex
+    justify-content: center
+    padding-bottom: 100px
+    .imageWrapper
+        display: flex
+        justify-content: center
+        align-items: center
+        gap: 42px
+        h4
+            font-weight: 400
+            font-size: 18px
+            line-height: 21px
+            color: $white
+        >div
+            display: flex
+            align-items: center
+            flex-direction: column
+            >div
+                width: 200px
+                height: 300px
+                position: relative
+                border-radius: 10px
+                overflow: hidden
+                &::before
+                    content: ''
+                    position: absolute
+                    width: 100%
+                    height: 100%
+                    background: linear-gradient(rgba(255, 255,255, 0%), #310c34)
+.head
+    display: flex
+    flex-direction: column
+    align-items: center
+    h1
+        font-size: 30px
+        line-height: 130.19%
+        font-weight: 700
+
+                

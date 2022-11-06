@@ -20,6 +20,16 @@ const Auth = ({ height, backCallback }) => {
 	const [password, setPassword] = React.useState('')
 	const [isType, setIsType] = React.useState('auth') //auth, reg
 
+	const successLogin = token => {
+		localStorage.setItem('token', token)
+		setIsAuth(true)
+
+		setPassword('')
+		setEmail('')
+
+		history('/')
+	}
+
 	const { mutate: register, error } = useMutation(
 		'Registration',
 		() =>
@@ -31,14 +41,22 @@ const Auth = ({ height, backCallback }) => {
 			}),
 		{
 			onSuccess(data) {
-				localStorage.setItem('token', data.token)
-				console.log(data)
-
-				setIsAuth(true)
-
-				setPassword('')
-				setEmail('')
-				history('/')
+				successLogin(data.token)
+			},
+		}
+	)
+	const { mutate: auth, error: errorAuth } = useMutation(
+		'Auth',
+		() =>
+			$api({
+				url: '/users/login',
+				type: 'POST',
+				body: { email, password },
+				auth: false,
+			}),
+		{
+			onSuccess(data) {
+				successLogin(data.token)
 			},
 		}
 	)
@@ -49,6 +67,7 @@ const Auth = ({ height, backCallback }) => {
 		e.preventDefault()
 		if (isType === 'auth') {
 			console.log('auth')
+			auth()
 		} else {
 			register()
 		}
@@ -63,6 +82,7 @@ const Auth = ({ height, backCallback }) => {
 			/>
 			<div className={styles.wrapper}>
 				{error && <Alert type='error' text={error} />}
+				{errorAuth && <Alert type='error' text={errorAuth} />}
 				<form onSubmit={handleSubmit}>
 					<Search
 						placeholder='Enter your e-mail'
