@@ -1,15 +1,16 @@
 import React, { Fragment } from 'react'
 import Header from '../../common/Header'
 import bgImage from '../../images/bg-workouts.jpg'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import styles from './Workout.module.sass'
 import layoutStyles from '../../common/Layout/Layout.module.sass'
 import { $api } from '../../../api/api'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Alert from '../../ui/Alert/Alert'
 
 const SingleWorkout = ({ backCallback, height, heading }) => {
 	let { id } = useParams()
+	const history = useNavigate()
 
 	const { data, isSuccess } = useQuery(
 		'get Workout',
@@ -19,6 +20,25 @@ const SingleWorkout = ({ backCallback, height, heading }) => {
 			}),
 		{
 			refetchOnWindowFocus: false,
+		}
+	)
+
+	const {
+		mutate,
+		isSuccess: isSuccessMutate,
+		error,
+	} = useMutation(
+		'Create new exercise log',
+		({ exId, times }) =>
+			$api({
+				url: '/exercises/log',
+				type: 'POST',
+				body: { exerciseId: exId, times },
+			}),
+		{
+			onSuccess(data) {
+				history(`/exercise/${data._id}`)
+			},
 		}
 	)
 
@@ -37,6 +57,8 @@ const SingleWorkout = ({ backCallback, height, heading }) => {
 					</>
 				)}
 			</div>
+			{error && <Alert type='error' text={error} />}
+			{isSuccessMutate && <Alert text='Exercise log create' />}
 			{isSuccess ? (
 				<div className={styles.wrapperInnerPage}>
 					<div className={styles.wrapper}>
@@ -44,12 +66,22 @@ const SingleWorkout = ({ backCallback, height, heading }) => {
 							return (
 								<Fragment key={`ex ${idx}`}>
 									<div>
-										<span>{ex.name}</span>
-										<img
-											src={`/uploads/${ex.imageId}.svg`}
-											height='34'
-											alt=''
-										/>
+										<button
+											aria-label='go to exercise'
+											onClick={() =>
+												mutate({
+													exId: ex._id,
+													times: ex.times,
+												})
+											}
+										>
+											<span>{ex.name}</span>
+											<img
+												src={`/uploads/${ex.imageId}.svg`}
+												height='34'
+												alt=''
+											/>
+										</button>
 									</div>
 									{idx % 2 !== 0 && <div className={styles.line}></div>}
 								</Fragment>

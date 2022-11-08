@@ -7,7 +7,7 @@ import ExerciseLog from '../../../models/exerciseLogModel.js'
 // @access  Private
 export const getExerciseLog = asyncHandler(async (req, res) => {
 	const exerciseLog = await ExerciseLog.findById(req.params.id)
-		.populate('exercise', 'name imageName')
+		.populate('exercise', 'name imageId')
 		.lean()
 
 	if (!exerciseLog) {
@@ -41,7 +41,7 @@ export const getExerciseLogList = asyncHandler(async (req, res) => {
 		user: req.user._id,
 		completed: true,
 	})
-		.populate('exercise', 'name imageName')
+		.populate('exercise', 'name imageId')
 		.select('exercise createdAt')
 		.lean()
 
