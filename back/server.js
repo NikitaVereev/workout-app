@@ -1,4 +1,4 @@
-import express, { application } from 'express'
+import express from 'express'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 import colors from 'colors'
@@ -12,8 +12,8 @@ import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 
 /* Routes */
 import userRoutes from './routes/userRoutes.js'
-import exerciseRouter from './routes/exerciseRouter.js'
-import workoutRouter from './routes/workoutRouter.js'
+import exerciseRoutes from './routes/exerciseRouter.js'
+import workoutRoutes from './routes/workoutRouter.js'
 
 dotenv.config()
 
@@ -27,11 +27,20 @@ app.use(express.json())
 
 const __dirname = path.resolve()
 
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+app.use('/uploads', express.static(path.join(__dirname, '/uploads/')))
 
 app.use('/api/users', userRoutes)
-app.use('/api/exercises', exerciseRouter)
-app.use('/api/workouts', workoutRouter)
+app.use('/api/exercises', exerciseRoutes)
+app.use('/api/workouts', workoutRoutes)
+
+if (process.env.NODE_ENV === 'production') {
+	// Step 1:
+	app.use(express.static(path.resolve(__dirname, './client/build')))
+	// Step 2:
+	app.get('*', function (request, response) {
+		response.sendFile(path.resolve(__dirname, './client/build', 'index.html'))
+	})
+}
 
 app.use(notFound)
 app.use(errorHandler)

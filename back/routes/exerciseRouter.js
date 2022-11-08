@@ -1,17 +1,20 @@
 import express from 'express'
+import { createNewExerciseLog } from '../controllers/exercize/log/createController.js'
+import {
+	getExerciseLog,
+	getExerciseLogList,
+} from '../controllers/exercize/log/getController.js'
+import {
+	updateExerciseLog,
+	updateCompleteExerciseLog,
+} from '../controllers/exercize/log/updateController.js'
 import {
 	createNewExercise,
 	deleteExercise,
 	getExercises,
 	updateExercise,
 } from '../controllers/exercize/mainController.js'
-import { createNewExerciseLog } from '../controllers/exercize/log/createController.js'
 import { protect } from '../middleware/authMiddleware.js'
-import { getExerciseLog } from '../controllers/exercize/log/getController.js'
-import {
-	updateCompleteExerciseLog,
-	updateExerciseLog,
-} from '../controllers/exercize/log/updateController.js'
 
 const router = express.Router()
 
@@ -24,6 +27,7 @@ router
 
 router
 	.route('/log')
+	.get(protect, getExerciseLogList)
 	.post(protect, createNewExerciseLog)
 	.put(protect, updateExerciseLog)
 

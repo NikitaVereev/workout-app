@@ -23,7 +23,7 @@ const Header = ({ backCallback }) => {
 	}
 
 	const hamburgerArr = [
-		{ name: 'Workouts', link: 'workout' },
+		{ name: 'Workouts', link: 'workouts' },
 		{ name: 'Create new', link: 'newpage' },
 		{ name: 'Profile', link: 'profile' },
 	]
@@ -33,6 +33,7 @@ const Header = ({ backCallback }) => {
 
 	const location = useLocation()
 	const authPage = useNavigate()
+	backCallback = () => authPage(-1)
 
 	return (
 		<header className={styles.header}>

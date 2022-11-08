@@ -1,17 +1,15 @@
 import mongoose from 'mongoose'
+
 const { ObjectId } = mongoose.Schema
 
 const workoutSchema = mongoose.Schema(
 	{
-		name: {
-			type: String,
-			require: true,
-		},
+		name: { type: String, required: true },
 		exercises: [
 			{
 				type: ObjectId,
 				ref: 'Exercise',
-				require: true,
+				required: true,
 			},
 		],
 	},
