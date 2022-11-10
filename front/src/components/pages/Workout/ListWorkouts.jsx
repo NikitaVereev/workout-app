@@ -4,12 +4,11 @@ import bgImage from '../../images/bg-workouts.jpg'
 import { useQuery } from 'react-query'
 import styles from './Workout.module.sass'
 import { $api } from '../../../api/api'
-
 import Alert from '../../ui/Alert/Alert'
 import Layout from '../../common/Layout'
 import { Link } from 'react-router-dom'
 
-const ListWorkouts = ({ backCallback, height, heading }) => {
+const ListWorkouts = ({ backCallback }) => {
 	const { data, isSuccess } = useQuery(
 		'get Workouts',
 		() =>
@@ -33,7 +32,7 @@ const ListWorkouts = ({ backCallback, height, heading }) => {
 					<div className={styles.wrapper}>
 						{data.map((workout, idx) => (
 							<div key={`ex ${idx}`}>
-								<Link to={`/workouts/${workout._id}`}>
+								<Link to={`/workouts/${workout._id}`} className={styles.button}>
 									<span>{workout.name}</span>
 								</Link>
 							</div>

@@ -51,10 +51,10 @@ const SingleWorkout = ({ backCallback, height, heading }) => {
 			>
 				<Header backCallback={backCallback} height={height} />
 				{isSuccess && (
-					<>
+					<div className={styles.heading}>
 						<time className={styles.time}>{data.minutes + ' min.'}</time>
 						<h1 className={styles.heading}>{data.name}</h1>
-					</>
+					</div>
 				)}
 			</div>
 			{error && <Alert type='error' text={error} />}
@@ -67,6 +67,7 @@ const SingleWorkout = ({ backCallback, height, heading }) => {
 								<Fragment key={`ex ${idx}`}>
 									<div>
 										<button
+											className={styles.button}
 											aria-label='go to exercise'
 											onClick={() =>
 												mutate({

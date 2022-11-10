@@ -2,12 +2,15 @@ import React, { Fragment } from 'react'
 import Header from '../../common/Header'
 import bgImage1 from '../../images/bg-exercise1.jpg'
 import bgImage2 from '../../images/bg-exercise2.jpg'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import styles from './SingleExercis.module.sass'
 import layoutStyles from '../../common/Layout/Layout.module.sass'
 import { $api } from '../../../api/api'
 import { useParams } from 'react-router-dom'
 import Alert from '../../ui/Alert/Alert'
+import checkImage from '../../images/check.svg'
+import notCheckImage from '../../images/nocheck.svg'
+import cn from 'classnames'
 
 const getRandomInt = (min, max) => {
 	min = Math.ceil(min)
@@ -18,7 +21,7 @@ const getRandomInt = (min, max) => {
 const SingleExercise = ({ backCallback, height, heading }) => {
 	let { id } = useParams()
 
-	const { data, isSuccess } = useQuery(
+	const { data, isSuccess, refetch } = useQuery(
 		'get Exercise log',
 		() =>
 			$api({
@@ -29,7 +32,21 @@ const SingleExercise = ({ backCallback, height, heading }) => {
 		}
 	)
 
-	console.log(getRandomInt(1, 2))
+	const { mutate: changeState, error: errorChange } = useMutation(
+		'Change log state',
+		({ timeIndex, key, value }) =>
+			$api({
+				url: '/exercises/log',
+				type: 'PUT',
+				body: { timeIndex, key, value, logId: id },
+				auth: false,
+			}),
+		{
+			onSuccess(data) {
+				refetch()
+			},
+		}
+	)
 
 	return (
 		<>
@@ -42,7 +59,7 @@ const SingleExercise = ({ backCallback, height, heading }) => {
 			>
 				<Header backCallback={backCallback} height={height} />
 				{isSuccess && (
-					<div>
+					<div className={styles.headWrapper}>
 						<img
 							src={`/uploads/${data.exercise.imageId}.svg`}
 							height='34'
@@ -52,15 +69,16 @@ const SingleExercise = ({ backCallback, height, heading }) => {
 					</div>
 				)}
 			</div>
+			{errorChange && <Alert type='error' text={errorChange} />}
 			{isSuccess ? (
 				<div className={styles.wrapperInnerPage}>
 					<div className={styles.wrapper}>
-						<div className='row'>
+						<div className={styles.row}>
 							<div>
 								<span>Previous</span>
 							</div>
 							<div>
-								<span>Repeat</span>
+								<span>Repeat & weight</span>
 							</div>
 							<div>
 								<span>Completed</span>
@@ -68,10 +86,53 @@ const SingleExercise = ({ backCallback, height, heading }) => {
 						</div>
 					</div>
 					{data.times.map((item, idx) => (
-						<div key={`ex ${idx}`}>
+						<div
+							key={`ex ${idx}`}
+							className={cn(styles.row, { [styles.completed]: item.completed })}
+						>
 							<div>
-								<input type='text' />
-								<i>/</i>
+								<input type='number' value={item.prevWeight} disabled />
+								<i>kg/</i>
+								<input type='number' value={item.prevRepeat} disabled />
+							</div>
+							<div>
+								<input
+									type='number'
+									value={item.weight}
+									onChange={e =>
+										changeState({
+											timeIndex: idx,
+											key: 'weight',
+											value: e.target.value,
+										})
+									}
+								/>
+								<i>kg/</i>
+								<input
+									type='number'
+									value={item.repeat}
+									onChange={e =>
+										changeState({
+											timeIndex: idx,
+											key: 'repeat',
+											value: e.target.value,
+										})
+									}
+								/>
+							</div>
+							<div>
+								<img
+									src={item.completed ? checkImage : notCheckImage}
+									className={styles.checkbox}
+									alt='completed image'
+									onClick={() =>
+										changeState({
+											timeIndex: idx,
+											key: 'completed',
+											value: !item.completed,
+										})
+									}
+								/>
 							</div>
 						</div>
 					))}

@@ -23,9 +23,9 @@ const Header = ({ backCallback }) => {
 	}
 
 	const hamburgerArr = [
-		{ name: 'Workouts', link: 'workouts' },
-		{ name: 'Create new', link: 'newpage' },
-		{ name: 'Profile', link: 'profile' },
+		{ name: 'Workouts', link: '/workouts' },
+		{ name: 'Create new', link: '/newpage' },
+		{ name: 'Profile', link: '/profile' },
 	]
 	const [hamburger, setHamburger] = React.useState(0)
 

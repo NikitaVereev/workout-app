@@ -13,7 +13,7 @@ const Layout = ({ children, bgImage, backCallback, heading = '' }) => {
 			heading={heading}
 		>
 			<Header backCallback={backCallback} />
-			{heading && <h1>{heading}</h1>}
+			{heading && <h1 className={styles.title}>{heading}</h1>}
 			{children && <div className={styles.content}>{children}</div>}
 		</div>
 	)
