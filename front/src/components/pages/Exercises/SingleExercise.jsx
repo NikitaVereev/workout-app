@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '../../common/Header'
 import bgImage1 from '../../images/bg-exercise1.jpg'
 import bgImage2 from '../../images/bg-exercise2.jpg'
@@ -6,10 +6,11 @@ import { useMutation, useQuery } from 'react-query'
 import styles from './SingleExercis.module.sass'
 import layoutStyles from '../../common/Layout/Layout.module.sass'
 import { $api } from '../../../api/api'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Alert from '../../ui/Alert/Alert'
 import checkImage from '../../images/check.svg'
 import notCheckImage from '../../images/nocheck.svg'
+import debounce from 'lodash.debounce'
 import cn from 'classnames'
 
 const getRandomInt = (min, max) => {
@@ -20,6 +21,13 @@ const getRandomInt = (min, max) => {
 
 const SingleExercise = ({ backCallback, height, heading }) => {
 	let { id } = useParams()
+	const history = useNavigate()
+
+	const [bgImage, setBgImage] = useState(bgImage1)
+
+	useEffect(() => {
+		setBgImage(getRandomInt(1, 2) === 1 ? bgImage1 : bgImage2)
+	}, [])
 
 	const { data, isSuccess, refetch } = useQuery(
 		'get Exercise log',
@@ -47,13 +55,31 @@ const SingleExercise = ({ backCallback, height, heading }) => {
 			},
 		}
 	)
+	const { mutate: setExCompleted, error: errorCompleted } = useMutation(
+		'Change log state',
+		({ timeIndex, key, value }) =>
+			$api({
+				url: '/exercises/log/completed',
+				type: 'PUT',
+				body: { logId: id, completed: true },
+			}),
+		{
+			onSuccess(data) {
+				history(-1)
+			},
+		}
+	)
+
+	useEffect(() => {
+		if (isSuccess) console.log(data.times.filter(time => time.completed))
+	}, [data?.times, isSuccess])
 
 	return (
 		<>
 			<div
 				className={`${layoutStyles.container} ${layoutStyles.otherPage}`}
 				style={{
-					background: `url(${getRandomInt(1, 2) === 1 ? bgImage1 : bgImage2})`,
+					background: `url(${bgImage})`,
 				}}
 				heading='Workout'
 			>
@@ -91,33 +117,38 @@ const SingleExercise = ({ backCallback, height, heading }) => {
 							className={cn(styles.row, { [styles.completed]: item.completed })}
 						>
 							<div>
-								<input type='number' value={item.prevWeight} disabled />
+								<input type='number' defaultValue={item.prevWeight} disabled />
 								<i>kg/</i>
-								<input type='number' value={item.prevRepeat} disabled />
+								<input type='number' defaultValue={item.prevRepeat} disabled />
 							</div>
 							<div>
 								<input
 									type='number'
-									value={item.weight}
-									onChange={e =>
-										changeState({
-											timeIndex: idx,
-											key: 'weight',
-											value: e.target.value,
-										})
-									}
+									defaultValue={item.weight}
+									onChange={debounce(
+										e =>
+											e.target.value &&
+											changeState({
+												timeIndex: idx,
+												key: 'weight',
+												value: e.target.value,
+											}),
+										2000
+									)}
 								/>
 								<i>kg/</i>
 								<input
 									type='number'
-									value={item.repeat}
-									onChange={e =>
-										changeState({
-											timeIndex: idx,
-											key: 'repeat',
-											value: e.target.value,
-										})
-									}
+									defaultValue={item.repeat}
+									onChange={debounce(
+										e =>
+											e.target.value &&
+											changeState({
+												timeIndex: idx,
+												key: 'repeat',
+												value: e.target.value,
+											})
+									)}
 								/>
 							</div>
 							<div>
