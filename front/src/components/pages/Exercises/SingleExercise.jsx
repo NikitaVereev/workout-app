@@ -57,7 +57,7 @@ const SingleExercise = ({ backCallback, height, heading }) => {
 	)
 	const { mutate: setExCompleted, error: errorCompleted } = useMutation(
 		'Change log state',
-		({ timeIndex, key, value }) =>
+		() =>
 			$api({
 				url: '/exercises/log/completed',
 				type: 'PUT',
@@ -65,13 +65,18 @@ const SingleExercise = ({ backCallback, height, heading }) => {
 			}),
 		{
 			onSuccess(data) {
-				history(-1)
+				history(`/workouts/${data.workoutLog}`)
 			},
 		}
 	)
 
 	useEffect(() => {
-		if (isSuccess) console.log(data.times.filter(time => time.completed))
+		if (
+			isSuccess &&
+			data.times.length === data.times.filter(time => time.completed).length
+		) {
+			setExCompleted()
+		}
 	}, [data?.times, isSuccess])
 
 	return (

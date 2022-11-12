@@ -21,6 +21,25 @@ const ListWorkouts = ({ backCallback }) => {
 		}
 	)
 
+	const {
+		mutate: createWorkoutLog,
+		isSuccess: isSuccessMutate,
+		error,
+	} = useMutation(
+		'Create new workout log',
+		({ workoutId }) =>
+			$api({
+				url: '/workouts/log',
+				type: 'POST',
+				body: { workoutId },
+			}),
+		{
+			onSuccess(data) {
+				history(`/workouts/${data._id}`)
+			},
+		}
+	)
+
 	return (
 		<>
 			<Layout
@@ -33,9 +52,17 @@ const ListWorkouts = ({ backCallback }) => {
 					<div className={styles.wrapper}>
 						{data.map((workout, idx) => (
 							<div key={`ex ${idx}`}>
-								<Link to={`/workouts/${workout._id}`} className={styles.button}>
+								<button
+									aria-label='Create new workout'
+									onClick={() =>
+										createWorkoutLog({
+											workoutId: workout._id,
+										})
+									}
+									className={styles.button}
+								>
 									<span>{workout.name}</span>
-								</Link>
+								</button>
 							</div>
 						))}
 					</div>
