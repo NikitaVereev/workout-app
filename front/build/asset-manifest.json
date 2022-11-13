@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/static/css/main.10856d21.css",
+    "main.js": "/static/js/main.0bf27470.js",
+    "static/js/787.71df535f.chunk.js": "/static/js/787.71df535f.chunk.js",
+    "static/media/bg1.jpg": "/static/media/bg1.6e2d41be7df136c228a9.jpg",
+    "static/media/bg-workouts.jpg": "/static/media/bg-workouts.5e143b42cdee2bc689db.jpg",
+    "static/media/bg-exercise.jpg": "/static/media/bg-exercise.3c4a7eb584c712cad4bf.jpg",
+    "static/media/bg-exercise1.jpg": "/static/media/bg-exercise1.566b015e4c0a1d7487bb.jpg",
+    "static/media/bg-exercise2.jpg": "/static/media/bg-exercise2.1fae85a44dc0d05a4b90.jpg",
+    "static/media/bg-profile.jpg": "/static/media/bg-profile.60f3c413821606b3d1f1.jpg",
+    "static/media/auth.jpg": "/static/media/auth.27325d5cc6bd5facfbb2.jpg",
+    "static/media/cat2.jpg": "/static/media/cat2.331e7450831ac5f2d901.jpg",
+    "static/media/cat1.jpg": "/static/media/cat1.cf70cafa67a2f4eeaac5.jpg",
+    "static/media/bg-auth.jpg": "/static/media/bg-auth.f9ba24bea98f4e909a13.jpg",
+    "static/media/user.svg": "/static/media/user.012b7ecf477c43924eae028368df76fd.svg",
+    "static/media/dumbbell.svg": "/static/media/dumbbell.1b655e51090ff223401e43b82b23019e.svg",
+    "static/media/check.svg": "/static/media/check.72c32ebf1b28e4b5e99cc11859bb0c7f.svg",
+    "index.html": "/index.html",
+    "static/media/nocheck.svg": "/static/media/nocheck.80b63008842122f8ee45cab9694e37a7.svg",
+    "static/media/arrow.svg": "/static/media/arrow.c3c36450bb48433c62ab9c6c76feb409.svg",
+    "static/media/menu.svg": "/static/media/menu.6c95a27622c6e775be733707084bb80c.svg",
+    "static/media/hamburger-close.svg": "/static/media/hamburger-close.7610df6f0876379271d6d7b1ed08b6f1.svg",
+    "main.10856d21.css.map": "/static/css/main.10856d21.css.map",
+    "main.0bf27470.js.map": "/static/js/main.0bf27470.js.map",
+    "787.71df535f.chunk.js.map": "/static/js/787.71df535f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.10856d21.css",
+    "static/js/main.0bf27470.js"
+  ]
+}

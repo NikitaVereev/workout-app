@@ -6,7 +6,7 @@ import styles from './Workout.module.sass'
 import { $api } from '../../../api/api'
 import Alert from '../../ui/Alert/Alert'
 import Layout from '../../common/Layout'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const ListWorkouts = ({ backCallback }) => {
 	const history = useNavigate()

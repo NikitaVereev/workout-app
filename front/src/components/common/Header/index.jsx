@@ -39,14 +39,14 @@ const Header = ({ backCallback }) => {
 		<header className={styles.header}>
 			{location.pathname !== '/' ? (
 				<button onClick={backCallback}>
-					<img src={userBack} />
+					<img src={userBack} alt='back' />
 				</button>
 			) : (
 				<button
 					type='button'
 					onClick={() => authPage(isAuth ? '/profile' : '/auth')}
 				>
-					<img src={isAuth ? authImage : userImage} height='24' />
+					<img src={isAuth ? authImage : userImage} height='24' alt='profile' />
 				</button>
 			)}
 			<div ref={ref}>
@@ -55,7 +55,10 @@ const Header = ({ backCallback }) => {
 						setOpen(() => setIsComponentVisible(!isComponentVisible))
 					}}
 				>
-					<img src={!isComponentVisible ? menuImage : menuCloseImage} />
+					<img
+						src={!isComponentVisible ? menuImage : menuCloseImage}
+						alt='hamburger'
+					/>
 				</button>
 				{isComponentVisible && (
 					<ul className={styles.popup}>
